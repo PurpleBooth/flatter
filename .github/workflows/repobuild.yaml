@@ -35,8 +35,27 @@ jobs:
           platforms: arm64
 
       - name: Build
-        uses: andyholmes/flatter@main
+        uses: andyholmes/actions/flatter@main
         with:
           files: |
             build-aux/flatpak/com.example.App.json
-          arch: ${{ matrix.arch }}
+          upload-pages-artifact: true
+          upload-pages-includes: |
+            default.css
+            index.html
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [flatter]
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
