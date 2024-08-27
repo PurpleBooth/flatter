@@ -5,6 +5,8 @@ on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
+  push:
+  pull_request:
 
 jobs:
   flatter:
@@ -16,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [ x86_64, aarch64 ]
+        arch: [ x86_64, aarch64]
       fail-fast: false
       max-parallel: 1
 
@@ -39,12 +41,9 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
-      # Generate a CNAME file on-the-fly for a configured host
-      #      - name: Generate CNAME
-      #        run: |
-      #          echo "flatter.andyholmes.ca" > CNAME
-
+      - name: Generate CNAME
+        run: |
+          echo "purplebooth.github.io" > CNAME
       - name: Build
         uses: andyholmes/flatter@main
         with:
@@ -56,11 +55,13 @@ jobs:
           upload-bundles: true
           upload-pages-artifact: ${{ matrix.arch == 'aarch64' }}
           upload-pages-includes: |
+            CNAME
             default.css
             index.html
 
   # See "Github Pages" below
   deploy:
+    if: github.ref == 'refs/heads/main'
     name: Deploy
     runs-on: ubuntu-latest
     needs: flatter
