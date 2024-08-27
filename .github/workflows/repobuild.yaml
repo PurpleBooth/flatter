@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        arch: [x86_64, aarch64]
+        arch: [ x86_64, aarch64 ]
       fail-fast: false
       max-parallel: 1
 
@@ -41,9 +41,9 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       # Generate a CNAME file on-the-fly for a configured host
-#      - name: Generate CNAME
-#        run: |
-#          echo "flatter.andyholmes.ca" > CNAME
+      #      - name: Generate CNAME
+      #        run: |
+      #          echo "flatter.andyholmes.ca" > CNAME
 
       - name: Build
         uses: andyholmes/flatter@main
@@ -72,6 +72,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: GitHub Pages
+      - name: Configure Pages
+        uses: actions/configure-pages@v4
+      - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
