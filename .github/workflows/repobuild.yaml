@@ -59,12 +59,18 @@ jobs:
             default.css
             index.html
 
+  lint-pipeline:
+    uses: armakuni/github-actions/.github/workflows/lint-pipeline.yml@cee3c433194a2e9ba4566d3423e4454f36fb97d0 # v0.19.3
+
+
   # See "Github Pages" below
   deploy:
     if: github.ref == 'refs/heads/main'
     name: Deploy
     runs-on: ubuntu-latest
-    needs: flatter
+    needs: 
+     - flatter
+     - lint-pipeline
     permissions:
       pages: write
       id-token: write
