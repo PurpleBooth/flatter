@@ -13,7 +13,7 @@ jobs:
     name: Flatter
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/andyholmes/flatter/rust:23.08
+      image: ghcr.io/andyholmes/flatter/rust:23.08@sha256:8352676525983220e9ef0ceffaf893d354ec376c64aac52a43d03871887778bb
       options: --privileged
 
     strategy:
@@ -25,19 +25,19 @@ jobs:
     steps:
       # Checkout a repository with Flatpak manifests
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
 
       - name: Setup QEMU
         if: ${{ matrix.arch == 'aarch64' }}
         id: qemu
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # v3
         with:
           platforms: arm64
 
       # See "GPG Signing" below
       - name: Setup GPG
         id: gpg
-        uses: crazy-max/ghaction-import-gpg@v5
+        uses: crazy-max/ghaction-import-gpg@d6f3f49f3345e29369fe57596a3ca8f94c4d2ca7 # v5
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
@@ -74,7 +74,7 @@ jobs:
 
     steps:
       - name: Configure Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@1f0c5cde4bc74cd7e1254d0cb4de8d49e9068c7d # v4
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
