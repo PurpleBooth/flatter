@@ -13,7 +13,7 @@ jobs:
     name: Flatter
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/andyholmes/flatter/rust:24.08@sha256:efdb130ce33d2624a8c396004969fea78452b321989ac0953652ff0630784c63
+      image: ghcr.io/andyholmes/flatter/rust:24.08@sha256:589765b4e8f0b045c3743fb62386e08047b7d6b86844ea8cb5ca296fc6b8c532
       options: --privileged
 
     strategy:
